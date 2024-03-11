@@ -1,0 +1,22 @@
+{
+    "configurations": [
+        {
+            "name": "OpenOCD",
+            "cwd": "${workspaceRoot}",
+            "type": "cortex-debug",
+            "request": "launch",
+            "armToolchainPath": "C:/msys64/mingw64/bin",
+            "gdbPath": "C:/msys64/mingw64/bin/gdb-multiarch.exe",
+            "interface": "swd",
+            "servertype": "openocd",
+            "configFiles": [
+                "daplink_iot.cfg"
+            ],
+            "executable": "${workspaceFolderBasename}.elf",
+            "svdFile": "AT32F403Axx_v2.svd",
+            "runToEntryPoint": "main",
+            "device": "AT32F403AVGT7",
+            "showDevDebugOutput": "vscode"
+        },
+    ]
+}
