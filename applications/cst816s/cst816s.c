@@ -21,10 +21,8 @@ static rt_err_t cst816s_write_reg(struct rt_i2c_client *dev, rt_uint8_t *write_d
     {
         return RT_EOK;
     }
-    else
-    {
-        return -RT_ERROR;
-    }
+
+    return RT_ERROR;
 }
 
 static rt_err_t cst816s_read_regs(struct rt_i2c_client *dev, rt_uint8_t *cmd_buf, rt_uint8_t cmd_len, rt_uint8_t *read_buf, rt_uint8_t read_len)
@@ -45,12 +43,9 @@ static rt_err_t cst816s_read_regs(struct rt_i2c_client *dev, rt_uint8_t *cmd_buf
     {
         return RT_EOK;
     }
-    else
-    {
-        return -RT_ERROR;
-    }
-}
 
+    return RT_ERROR;
+}
 
 static rt_size_t cst816s_read_point(struct rt_touch_device *touch, void *buf, rt_size_t touch_num)
 {
@@ -73,7 +68,7 @@ static rt_size_t cst816s_read_point(struct rt_touch_device *touch, void *buf, rt
         cst816s_read_regs(cst816s_client, cmd, 1, read, 4);
         pdata->x_coordinate = ((read[0] & 0x0f) << 8) + read[1];
         pdata->y_coordinate = ((read[2] & 0x0f) << 8) + read[3];
-        pdata->timestamp =rt_touch_get_ts();
+        pdata->timestamp = rt_touch_get_ts();
         LOG_D("get touch point\n");
     }
 }
@@ -108,12 +103,13 @@ static rt_err_t cst816s_get_info(struct rt_i2c_client *dev, struct rt_touch_info
 
     if (cst816s_read_regs(cst816s_client, &reg, 1, reg_val, 3) != RT_EOK)
     {
-        LOG_D("read id failed \n");
+        rt_kprintf("read id failed \n");
         return RT_ERROR;
     }
     rt_kprintf("CST816S_ChipID:=%d\r\n", reg_val[0]);
     rt_kprintf("CST816S_ProjID:=%d\r\n", reg_val[1]);
     rt_kprintf("CST816S_FwVersion:=%d\r\n", reg_val[2]);
+    
     cst816s_init();
     return RT_EOK;
 }
@@ -148,7 +144,6 @@ int rt_hw_cst816s_init(const char *name, struct rt_touch_config *cfg)
 
     /* hardware init */
     rt_pin_mode(cfg->irq_pin.pin, PIN_MODE_INPUT);
-    rt_thread_mdelay(100);
 
     /* interface bus */
     cst816s_client = (struct rt_i2c_client *)rt_calloc(1, sizeof(struct rt_i2c_client));
@@ -196,7 +191,7 @@ int rt_hw_cst816s_port(void)
 {
     struct rt_touch_config config;
 
-    config.dev_name = TOUCH_I2C_NAME;
+    config.dev_name = "i2c1";
     config.irq_pin.pin = TOUCH_IRQ_PIN;
     config.irq_pin.mode = PIN_MODE_INPUT;
 

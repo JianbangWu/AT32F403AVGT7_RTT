@@ -3,9 +3,6 @@
 
 #include <rtthread.h>
 #include "drv_lcd.h"
-#include "rtdef.h"
-
-// #ifdef BSP_USING_LCD1
 
 // #define LCD1_CONFIG                      \
 //     {                                    \
@@ -16,7 +13,6 @@
 //         .cs_pin = "PA.4",                \
 //         .reset_pin = "PC.4",             \
 //         .bkl_pin = "PA.2",               \
-//         .bkl_type = RT_Device_Class_PWM, \
 //     }
 
 #define LCD1_CONFIG                      \
@@ -28,7 +24,6 @@
         .cs_pin = "PB.12",               \
         .reset_pin = "PB.1",             \
         .bkl_pin = "PC.7",               \
-        .bkl_type = RT_Device_Class_PWM, \
     }
 
 // #define LCD2_CONFIG                      \
@@ -40,7 +35,6 @@
 //         .cs_pin = "PE.4",               \
 //         .reset_pin = "PE.0",             \
 //         .bkl_pin = "PB.8",               \
-//         .bkl_type = RT_Device_Class_PWM, \
 //     }
 
 #define LCD2_CONFIG                      \
@@ -52,19 +46,7 @@
         .cs_pin = "PE.4",                \
         .reset_pin = "PE.1",             \
         .bkl_pin = "PB.9",               \
-        .bkl_type = RT_Device_Class_PWM, \
     }
 
-// #endif /* BSP_USING_SPI1 */
-
-#define LCD1_INFO                                      \
-    {                                                  \
-        .pixel_format = RTGRAPHIC_PIXEL_FORMAT_RGB565, \
-        .bits_per_pixel = 16,                          \
-        .width = 320,                                  \
-        .height = 360,                                 \
-        .framebuffer = RT_NULL,                        \
-        .smem_len = RT_NULL,                           \
-    }
 
 #endif

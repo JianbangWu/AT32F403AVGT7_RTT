@@ -1,6 +1,6 @@
-
 #include <rtthread.h>
 #include <rtdevice.h>
+
 #include "cst816s.h"
 
 #define THREAD_PRIORITY 25
@@ -42,8 +42,9 @@ static rt_err_t rx_callback(rt_device_t dev, rt_size_t size)
 }
 
 /* Test function */
-static void cst816s_sample(void)
+void cst816s_sample(void)
 {
+
     touch_device = rt_device_find(TOUCH_DEVICE_NAME);
     if (touch_device == RT_NULL)
     {
@@ -53,28 +54,34 @@ static void cst816s_sample(void)
 
     if (rt_device_open(touch_device, RT_DEVICE_FLAG_INT_RX) != RT_EOK) // check device only, touch device has no init function
     {
-        rt_kprintf("open device failed!");
+        rt_kprintf("open device failed!\r\n");
         return -1;
     }
 
     if (rt_device_control(touch_device, RT_TOUCH_CTRL_GET_INFO, &info) == RT_ERROR)
     {
+        rt_kprintf("device control failed!\r\n");
         return -1;
     }
 
     cst816s_sem = rt_sem_create("dsem", 0, RT_IPC_FLAG_FIFO);
     if (cst816s_sem == RT_NULL)
     {
-        rt_kprintf("create dynamic semaphore failed.\n");
+        rt_kprintf("create dynamic semaphore failed.\r\n");
         return -1;
     }
 
     rt_device_set_rx_indicate(touch_device, rx_callback);
 
-    cst816s_thread = rt_thread_create("touch", cst816s_entry, RT_NULL, THREAD_STACK_SIZE, THREAD_PRIORITY, THREAD_TIMESLICE);
+    cst816s_thread = rt_thread_create("touch", cst816s_entry, RT_NULL,
+                                      THREAD_STACK_SIZE, THREAD_PRIORITY, THREAD_TIMESLICE);
 
-    if (cst816s_thread != RT_NULL)
-        rt_thread_startup(cst816s_thread);
+    if (cst816s_thread == RT_NULL)
+    {
+        rt_kprintf("create thread fail.\r\n");
+        return -1;
+    }
+    rt_thread_startup(cst816s_thread);
 
     return 0;
 }
