@@ -74,3 +74,33 @@ void clock_information(void)
   rt_kprintf("PCLK1_Frequency  = %d\r\n", (int)crm_clocks.apb1_freq);
   rt_kprintf("PCLK2_Frequency  = %d\r\n", (int)crm_clocks.apb2_freq);
 }
+MSH_CMD_EXPORT(clock_information, clock info);
+
+static rt_err_t i2c_search_device()
+{
+  struct rt_i2c_bus_device *bus = rt_device_find("i2c1");
+  uint8_t reg = 0xA7;
+
+  rt_pin_mode(rt_pin_get("PE.1"), PIN_MODE_OUTPUT);
+
+  rt_pin_write(rt_pin_get("PE.1"), PIN_LOW);
+  rt_thread_mdelay(10);
+  rt_pin_write(rt_pin_get("PE.1"), PIN_HIGH);
+  rt_thread_mdelay(30);
+
+  for (uint16_t i = 0; i < 0x7F; i++)
+  {
+    struct rt_i2c_msg msgs;
+
+    msgs.addr = i;
+    msgs.flags = RT_I2C_WR;
+    msgs.buf = &reg;
+    msgs.len = 1;
+
+    if (rt_i2c_transfer(bus, &msgs, 1) == 1)
+    {
+      rt_kprintf("Found I2C Device Addr = %X\r\n", i);
+    }
+  }
+}
+MSH_CMD_EXPORT(i2c_search_device, search device);

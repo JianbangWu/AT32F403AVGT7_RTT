@@ -33,24 +33,6 @@ static struct drv_lcd_config lcd_config[] = {
 #endif
 };
 
-// static struct rt_device_graphic_info lcd_info[] = {
-// #ifdef BSP_USING_LCD1
-//     LCD1_INFO,
-// #endif
-
-// #ifdef BSP_USING_LCD2
-//     LCD2_INFO,
-// #endif
-
-// #ifdef BSP_USING_LCD3
-//     LCD3_INFO,
-// #endif
-
-// #ifdef BSP_USING_LCD4
-//     LCD4_INFO,
-// #endif
-// };
-
 #include "st7796.h"
 #include "gc9a01.h"
 static rt_err_t drv_lcd_init(struct drv_lcd_config *dev)

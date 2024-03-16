@@ -1,5 +1,5 @@
-#ifndef DRV_LCD_H__
-#define DRV_LCD_H__
+#ifndef __DRV_LCD_H__
+#define __DRV_LCD_H__
 
 #include <rtthread.h>
 #include "drv_common.h"

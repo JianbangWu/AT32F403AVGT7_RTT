@@ -15,6 +15,18 @@ menu "Onboard Peripheral Drivers"
         select BSP_USING_UART1
         default y
 
+    config BSP_USING_LCD
+        bool "Enable LCD (lcd1)"
+        select BSP_USING_LCD
+        default y
+        if BSP_USING_LCD
+            config BSP_USING_LCD1
+                bool "USE lcd1(st7796)"
+                default y
+            config BSP_USING_LCD2
+                bool "USE lcd2(gc9a01)"
+                default y
+        endif
 endmenu
 
 menu "On-chip Peripheral Drivers"
@@ -229,6 +241,14 @@ menu "On-chip Peripheral Drivers"
                 bool "Enable SPI2 RX DMA"
                 depends on BSP_USING_SPI2
                 select BSP_SPI2_TX_USING_DMA
+                default n
+
+            config BSP_USING_SPI3
+                bool "Enable SPI3 BUS"
+                default n
+
+            config BSP_USING_SPI4
+                bool "Enable SPI4 BUS"
                 default n
         endif
 

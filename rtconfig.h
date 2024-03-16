@@ -98,12 +98,16 @@
 #define RT_USING_SERIAL_V1
 #define RT_SERIAL_USING_DMA
 #define RT_SERIAL_RB_BUFSZ 64
-// #define RT_USING_HWTIMER
+#define RT_USING_HWTIMER
+#define RT_USING_I2C
+#define RT_USING_I2C_BITOPS
 #define RT_USING_PIN
-// #define RT_USING_ADC
+#define RT_USING_ADC
 #define RT_USING_PWM
 #define RT_USING_SPI
-// #define RT_USING_LCD
+#define RT_USING_TOUCH
+#define RT_TOUCH_PIN_IRQ
+#define RT_USING_LCD
 
 /* Using USB */
 
@@ -278,6 +282,9 @@
 /* Onboard Peripheral Drivers */
 
 #define BSP_USING_SERIAL
+#define BSP_USING_LCD
+#define BSP_USING_LCD1
+#define BSP_USING_LCD2
 
 /* On-chip Peripheral Drivers */
 
@@ -287,16 +294,13 @@
 #define BSP_USING_PWM
 #define BSP_USING_PWM8
 #define BSP_USING_PWM8_CH2
-// #define BSP_USING_HWTIMER
 #define BSP_USING_SPI
-#define BSP_USING_SPI1
 #define BSP_USING_SPI2
+#define BSP_USING_SPI3
 #define BSP_USING_SPI4
-// #define BSP_USING_ADC
-// #define BSP_USING_ADC1
-// #define BSP_USING_ADC2
-// #define BSP_USING_ADC3
-#define BSP_USING_LCD1
-#define BSP_USING_LCD2
+#define BSP_USING_I2C
+#define BSP_USING_I2C1
+#define BSP_I2C1_SCL_PIN 22
+#define BSP_I2C1_SDA_PIN 23
 
 #endif

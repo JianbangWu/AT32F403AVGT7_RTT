@@ -1,1 +1,9 @@
 /build
+*.o
+*.bin
+*.elf
+*.hex
+*.map
+*.dblite
+*.old
+*.pyc

@@ -1,22 +1,13 @@
 {
     "cortex-debug.openocdPath": "D:/DevelopTools/OpenOCD_AT32/bin/openocd.exe",
+    "cortex-debug.armToolchainPath.windows": "C:/msys64/mingw64/bin",
+    "cortex-debug.gdbPath.windows": "C:/msys64/mingw64/bin/gdb-multiarch.exe",
     "files.associations": {
         "*.ld": "asm-collection",
-        "board.h": "c",
-        "at32_msp.h": "c",
-        "rtthread.h": "c",
-        "drv_spi.h": "c",
-        "lcd.h": "c",
-        "rt_dev_bus.h": "c",
         "rtdevice.h": "c",
-        "pin.h": "c",
-        "drv_lcd.h": "c",
-        "chrono": "c",
-        "algorithm": "c",
-        "spi.h": "c",
-        "st7796.h": "c",
-        "drv_gpio.h": "c",
-        "lv_conf.h": "c",
-        "lv_conf_kconfig.h": "c"
-    }
+        "condition_variable": "c",
+        "lvgl.h": "c",
+        "st7796.h": "c"
+    },
+    "cortex-debug.variableUseNaturalFormat": false
 }
