@@ -78,14 +78,19 @@ static rt_err_t cst816s_init(void)
     uint8_t reg_val[5][2] = {0};
     reg_val[0][0] = CST816S_NorScanPer;
     reg_val[0][1] = 0x02;
+
     reg_val[1][0] = CST816S_IrqCtl;
     reg_val[1][1] = 0x60;
+
     reg_val[2][0] = CST816S_LongPressTime;
     reg_val[2][1] = 0;
+
     reg_val[3][0] = CST816S_IOCtl;
     reg_val[3][1] = 0;
+
     reg_val[4][0] = CST816S_DisAutoSleep;
     reg_val[4][1] = 1;
+    
     cst816s_write_reg(cst816s_client, reg_val, 10);
 }
 
@@ -93,13 +98,6 @@ static rt_err_t cst816s_get_info(struct rt_i2c_client *dev, struct rt_touch_info
 {
     uint8_t reg = CST816S_ChipID;
     rt_uint8_t reg_val[3] = {0};
-
-    rt_pin_mode(rt_pin_get("PE.1"), PIN_MODE_OUTPUT);
-
-    rt_pin_write(rt_pin_get("PE.1"), PIN_LOW);
-    rt_thread_mdelay(10);
-    rt_pin_write(rt_pin_get("PE.1"), PIN_HIGH);
-    rt_thread_mdelay(30);
 
     if (cst816s_read_regs(cst816s_client, &reg, 1, reg_val, 3) != RT_EOK)
     {
@@ -109,8 +107,7 @@ static rt_err_t cst816s_get_info(struct rt_i2c_client *dev, struct rt_touch_info
     rt_kprintf("CST816S_ChipID:=%d\r\n", reg_val[0]);
     rt_kprintf("CST816S_ProjID:=%d\r\n", reg_val[1]);
     rt_kprintf("CST816S_FwVersion:=%d\r\n", reg_val[2]);
-    
-    cst816s_init();
+
     return RT_EOK;
 }
 
@@ -142,9 +139,6 @@ int rt_hw_cst816s_init(const char *name, struct rt_touch_config *cfg)
     if (touch_device == RT_NULL)
         return -RT_ERROR;
 
-    /* hardware init */
-    rt_pin_mode(cfg->irq_pin.pin, PIN_MODE_INPUT);
-
     /* interface bus */
     cst816s_client = (struct rt_i2c_client *)rt_calloc(1, sizeof(struct rt_i2c_client));
 
@@ -155,21 +149,23 @@ int rt_hw_cst816s_init(const char *name, struct rt_touch_config *cfg)
         LOG_E("Can't find device\r\n");
         return -RT_ERROR;
     }
-    else
-    {
-        LOG_D("Find %s\r\n", cfg->dev_name);
-    }
+
     if (rt_device_open((rt_device_t)cst816s_client->bus, RT_DEVICE_FLAG_RDWR) != RT_EOK)
     {
-        LOG_E("open device failed\r\n");
+        LOG_E("open bus failed\r\n");
         return -RT_ERROR;
     }
-    else
-    {
-        LOG_D("open device OK\r\n");
-    }
 
+    /* hardware init */
     rt_pin_mode(cfg->irq_pin.pin, cfg->irq_pin.mode);
+    rt_pin_mode(cfg->user_data, PIN_MODE_OUTPUT);
+
+    rt_pin_write(cfg->user_data, PIN_LOW);
+    rt_thread_mdelay(10);
+    rt_pin_write(cfg->user_data, PIN_HIGH);
+    rt_thread_mdelay(30);
+
+    cst816s_init();
 
     cst816s_client->client_addr = CST816S_DEV_ADDR;
 
@@ -191,11 +187,11 @@ int rt_hw_cst816s_port(void)
 {
     struct rt_touch_config config;
 
-    config.dev_name = "i2c1";
+    config.dev_name = TOUCH_I2C_NAME;
     config.irq_pin.pin = TOUCH_IRQ_PIN;
     config.irq_pin.mode = PIN_MODE_INPUT;
 
-    config.user_data = RT_NULL;
+    config.user_data = TOUCH_RST_PIN;
 
     rt_hw_cst816s_init(TOUCH_DEVICE_NAME, &config);
 

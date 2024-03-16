@@ -260,7 +260,7 @@
 #define BSP_USING_SPI4
 #define BSP_USING_I2C
 #define BSP_USING_I2C1
-#define BSP_I2C1_SCL_PIN GET_PIN(B, 8)
-#define BSP_I2C1_SDA_PIN GET_PIN(B, 9)
+#define BSP_I2C1_SCL_PIN 24
+#define BSP_I2C1_SDA_PIN 25
 
 #endif

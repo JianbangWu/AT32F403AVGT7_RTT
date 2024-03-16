@@ -27,7 +27,6 @@ static void cst816s_entry(void *parameter)
         {
             lv_obj_set_pos(label0, read_data.x_coordinate, read_data.y_coordinate);
             rt_kprintf("%d %3d %3d %d \r\n", read_data.track_id, read_data.x_coordinate, read_data.y_coordinate, read_data.timestamp);
-
             tick_old = read_data.timestamp;
         }
         rt_device_control(touch_device, RT_TOUCH_CTRL_ENABLE_INT, RT_NULL);

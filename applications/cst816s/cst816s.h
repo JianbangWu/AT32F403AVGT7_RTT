@@ -14,7 +14,7 @@
 #endif
 
 #ifndef TOUCH_RST_PIN
-#define TOUCH_RST_PIN (24)
+#define TOUCH_RST_PIN (65)
 #endif
 
 #define CST816S_DEV_ADDR 0x15

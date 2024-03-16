@@ -7,7 +7,10 @@
         "rtdevice.h": "c",
         "condition_variable": "c",
         "lvgl.h": "c",
-        "st7796.h": "c"
+        "st7796.h": "c",
+        "drv_spi.h": "c",
+        "rtthread.h": "c",
+        "drv_common.h": "c"
     },
     "cortex-debug.variableUseNaturalFormat": false
 }
