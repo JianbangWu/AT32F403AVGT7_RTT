@@ -108,8 +108,10 @@
 #define RT_USING_TOUCH
 #define RT_TOUCH_PIN_IRQ
 #define RT_USING_LCD
+#define RT_USING_PULSE_ENCODER
 
 /* Using USB */
+
 
 /* C/C++ and POSIX layer */
 
@@ -124,39 +126,54 @@
 
 /* POSIX (Portable Operating System Interface) layer */
 
+
 /* Interprocess Communication (IPC) */
+
 
 /* Socket is in the 'Network' category */
 
+
 /* Network */
 
+
 /* Utilities */
+
 
 /* RT-Thread online packages */
 
 /* IoT - internet of things */
 
+
 /* Wi-Fi */
 
 /* Marvell WiFi */
 
+
 /* Wiced WiFi */
+
 
 /* CYW43012 WiFi */
 
+
 /* BL808 WiFi */
+
 
 /* CYW43439 WiFi */
 
+
 /* IoT Cloud */
 
+
 /* security packages */
+
 
 /* language packages */
 
 /* JSON: JavaScript Object Notation, a lightweight data-interchange format */
 
+
 /* XML: Extensible Markup Language */
+
 
 /* multimedia packages */
 
@@ -172,17 +189,23 @@
 
 /* u8g2: a monochrome graphic library */
 
+
 /* tools packages */
+
 
 /* system packages */
 
 /* enhanced kernel services */
 
+
 /* acceleration: Assembly language or algorithmic acceleration packages */
+
 
 /* CMSIS: ARM Cortex-M Microcontroller Software Interface Standard */
 
+
 /* Micrium: Micrium software products porting for RT-Thread */
+
 
 /* peripheral libraries and drivers */
 
@@ -190,15 +213,21 @@
 
 /* STM32 HAL & SDK Drivers */
 
+
 /* Kendryte SDK */
+
 
 /* sensors drivers */
 
+
 /* touch drivers */
+
 
 /* AI packages */
 
+
 /* Signal Processing and Control Algorithm Packages */
+
 
 /* miscellaneous packages */
 
@@ -206,29 +235,41 @@
 
 /* samples: kernel and components samples */
 
+
 /* entertainment: terminal games and other interesting software packages */
+
 
 /* Arduino libraries */
 
+
 /* Projects and Demos */
+
 
 /* Sensors */
 
+
 /* Display */
+
 
 /* Timing */
 
+
 /* Data Processing */
+
 
 /* Data Storage */
 
 /* Communication */
 
+
 /* Device Control */
+
 
 /* Other */
 
+
 /* Signal IO */
+
 
 /* Uncategorized */
 
@@ -254,13 +295,17 @@
 #define BSP_USING_PWM
 #define BSP_USING_PWM8
 #define BSP_USING_PWM8_CH2
+// #define BSP_USING_HWTIMER
+// #define BSP_USING_HWTMR4
+#define BSP_USING_PULSE_ENCODER
+#define BSP_USING_PULSE_ENCODER4
 #define BSP_USING_SPI
 #define BSP_USING_SPI2
 #define BSP_USING_SPI3
 #define BSP_USING_SPI4
 #define BSP_USING_I2C
 #define BSP_USING_I2C1
-#define BSP_I2C1_SCL_PIN 24
-#define BSP_I2C1_SDA_PIN 25
+#define BSP_I2C1_SCL_PIN 22
+#define BSP_I2C1_SDA_PIN 23
 
 #endif

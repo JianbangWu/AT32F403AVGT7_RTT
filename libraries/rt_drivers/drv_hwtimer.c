@@ -11,8 +11,8 @@
 #include "board.h"
 #include "drv_hwtimer.h"
 
-//#define DRV_DEBUG
-#define LOG_TAG             "drv.hwtimer"
+// #define DRV_DEBUG
+#define LOG_TAG "drv.hwtimer"
 #include <drv_log.h>
 
 #ifdef BSP_USING_HWTIMER
@@ -82,90 +82,90 @@ enum
 
 struct at32_hwtimer
 {
-    rt_hwtimer_t  tmr_device;
-    tmr_type*     tmr_x;
-    IRQn_Type     tmr_irqn;
-    char          *name;
+    rt_hwtimer_t tmr_device;
+    tmr_type *tmr_x;
+    IRQn_Type tmr_irqn;
+    char *name;
 };
 
 static struct at32_hwtimer at32_hwtimer_obj[] =
-{
+    {
 #ifdef BSP_USING_HWTMR1
-    TMR1_CONFIG,
+        TMR1_CONFIG,
 #endif
 
 #ifdef BSP_USING_HWTMR2
-    TMR2_CONFIG,
+        TMR2_CONFIG,
 #endif
 
 #ifdef BSP_USING_HWTMR3
-    TMR3_CONFIG,
+        TMR3_CONFIG,
 #endif
 
 #ifdef BSP_USING_HWTMR4
-    TMR4_CONFIG,
+        TMR4_CONFIG,
 #endif
 
 #ifdef BSP_USING_HWTMR5
-    TMR5_CONFIG,
+        TMR5_CONFIG,
 #endif
 
 #ifdef BSP_USING_HWTMR6
-    TMR6_CONFIG,
+        TMR6_CONFIG,
 #endif
 
 #ifdef BSP_USING_HWTMR7
-    TMR7_CONFIG,
+        TMR7_CONFIG,
 #endif
 
 #ifdef BSP_USING_HWTMR8
-    TMR8_CONFIG,
+        TMR8_CONFIG,
 #endif
 
 #ifdef BSP_USING_HWTMR9
-    TMR9_CONFIG,
+        TMR9_CONFIG,
 #endif
 
 #ifdef BSP_USING_HWTMR10
-    TMR10_CONFIG,
+        TMR10_CONFIG,
 #endif
 
 #ifdef BSP_USING_HWTMR11
-    TMR11_CONFIG,
+        TMR11_CONFIG,
 #endif
 
 #ifdef BSP_USING_HWTMR12
-    TMR12_CONFIG,
+        TMR12_CONFIG,
 #endif
 
 #ifdef BSP_USING_HWTMR13
-    TMR13_CONFIG,
+        TMR13_CONFIG,
 #endif
 
 #ifdef BSP_USING_HWTMR14
-    TMR14_CONFIG,
+        TMR14_CONFIG,
 #endif
 
 #ifdef BSP_USING_HWTMR15
-    TMR15_CONFIG,
+        TMR15_CONFIG,
 #endif
 };
 
 static void tmr_pclk_get(rt_uint32_t *pclk1_doubler, rt_uint32_t *pclk2_doubler)
 {
-    crm_clocks_freq_type  clocks_struct;
+    crm_clocks_freq_type clocks_struct;
 
     *pclk1_doubler = 1;
     *pclk2_doubler = 1;
 
     crm_clocks_freq_get(&clocks_struct);
 
-    if(clocks_struct.ahb_freq != clocks_struct.apb1_freq)
+    if (clocks_struct.ahb_freq != clocks_struct.apb1_freq)
     {
         *pclk1_doubler = 2;
     }
 
-    if(clocks_struct.ahb_freq != clocks_struct.apb2_freq)
+    if (clocks_struct.ahb_freq != clocks_struct.apb2_freq)
     {
         *pclk2_doubler = 2;
     }
@@ -192,21 +192,21 @@ static void at32_timer_init(struct rt_hwtimer_device *timer, rt_uint32_t state)
         tmr_pclk_get(&pclk1_doubler, &pclk2_doubler);
         crm_clocks_freq_get(&clocks_struct);
 
-        if(
-#if defined (TMR1)
-        (tmr_x == TMR1)
+        if (
+#if defined(TMR1)
+            (tmr_x == TMR1)
 #endif
-#if defined (TMR8)
-        || (tmr_x == TMR8)
+#if defined(TMR8)
+            || (tmr_x == TMR8)
 #endif
-#if defined (TMR9)
-        || (tmr_x == TMR9)
+#if defined(TMR9)
+            || (tmr_x == TMR9)
 #endif
-#if defined (TMR10)
-        || (tmr_x == TMR10)
+#if defined(TMR10)
+            || (tmr_x == TMR10)
 #endif
-#if defined (TMR11)
-        || (tmr_x == TMR11)
+#if defined(TMR11)
+            || (tmr_x == TMR11)
 #endif
         )
         {
@@ -308,55 +308,55 @@ static rt_err_t at32_timer_ctrl(rt_hwtimer_t *timer, rt_uint32_t cmd, void *arg)
 
     tmr_x = (tmr_type *)timer->parent.user_data;
 
-    switch(cmd)
+    switch (cmd)
     {
-        case HWTIMER_CTRL_FREQ_SET:
-        {
-            rt_uint32_t freq;
-            rt_uint16_t val;
+    case HWTIMER_CTRL_FREQ_SET:
+    {
+        rt_uint32_t freq;
+        rt_uint16_t val;
 
-            /* get timer frequence */
-            freq = *((rt_uint32_t *)arg);
+        /* get timer frequence */
+        freq = *((rt_uint32_t *)arg);
 
-            /* get timer clock */
-            tmr_pclk_get(&pclk1_doubler, &pclk2_doubler);
-            crm_clocks_freq_get(&clocks_struct);
-            if(
-#if defined (TMR1)
+        /* get timer clock */
+        tmr_pclk_get(&pclk1_doubler, &pclk2_doubler);
+        crm_clocks_freq_get(&clocks_struct);
+        if (
+#if defined(TMR1)
             (tmr_x == TMR1)
 #endif
-#if defined (TMR8)
+#if defined(TMR8)
             || (tmr_x == TMR8)
 #endif
-#if defined (TMR9)
+#if defined(TMR9)
             || (tmr_x == TMR9)
 #endif
-#if defined (TMR10)
+#if defined(TMR10)
             || (tmr_x == TMR10)
 #endif
-#if defined (TMR11)
+#if defined(TMR11)
             || (tmr_x == TMR11)
 #endif
-            )
-            {
-                tmr_clock = clocks_struct.apb2_freq * pclk2_doubler;
-            }
-            else
-            {
-                tmr_clock = clocks_struct.apb1_freq * pclk1_doubler;
-            }
-            /* set div value */
-            val = tmr_clock / freq;
-
-            tmr_div_value_set(tmr_x, val - 1);
-            tmr_event_sw_trigger(tmr_x, TMR_OVERFLOW_SWTRIG);
-        }
-        break;
-        default:
+        )
         {
-            result = -RT_ENOSYS;
+            tmr_clock = clocks_struct.apb2_freq * pclk2_doubler;
         }
-        break;
+        else
+        {
+            tmr_clock = clocks_struct.apb1_freq * pclk1_doubler;
+        }
+        /* set div value */
+        val = tmr_clock / freq;
+
+        tmr_div_value_set(tmr_x, val - 1);
+        tmr_event_sw_trigger(tmr_x, TMR_OVERFLOW_SWTRIG);
+    }
+    break;
+    default:
+    {
+        result = -RT_ENOSYS;
+    }
+    break;
     }
 
     return result;
@@ -364,12 +364,12 @@ static rt_err_t at32_timer_ctrl(rt_hwtimer_t *timer, rt_uint32_t cmd, void *arg)
 
 static const struct rt_hwtimer_info _info = TMR_DEV_INFO_CONFIG;
 static const struct rt_hwtimer_ops _ops =
-{
-    .init      = at32_timer_init,
-    .start     = at32_timer_start,
-    .stop      = at32_timer_stop,
-    .count_get = at32_timer_counter_get,
-    .control   = at32_timer_ctrl,
+    {
+        .init = at32_timer_init,
+        .start = at32_timer_start,
+        .stop = at32_timer_stop,
+        .count_get = at32_timer_counter_get,
+        .control = at32_timer_ctrl,
 };
 
 #ifdef BSP_USING_HWTMR2
@@ -378,7 +378,7 @@ void TMR2_GLOBAL_IRQHandler(void)
     /* enter interrupt */
     rt_interrupt_enter();
 
-    if(tmr_flag_get(TMR2, TMR_OVF_FLAG) == SET)
+    if (tmr_flag_get(TMR2, TMR_OVF_FLAG) == SET)
     {
         rt_device_hwtimer_isr(&at32_hwtimer_obj[TMR2_INDEX].tmr_device);
         tmr_flag_clear(TMR2, TMR_OVF_FLAG);
@@ -394,7 +394,7 @@ void TMR3_GLOBAL_IRQHandler(void)
     /* enter interrupt */
     rt_interrupt_enter();
 
-    if(tmr_flag_get(TMR3, TMR_OVF_FLAG) == SET)
+    if (tmr_flag_get(TMR3, TMR_OVF_FLAG) == SET)
     {
         rt_device_hwtimer_isr(&at32_hwtimer_obj[TMR3_INDEX].tmr_device);
         tmr_flag_clear(TMR3, TMR_OVF_FLAG);
@@ -410,7 +410,7 @@ void TMR4_GLOBAL_IRQHandler(void)
     /* enter interrupt */
     rt_interrupt_enter();
 
-    if(tmr_flag_get(TMR4, TMR_OVF_FLAG) == SET)
+    if (tmr_flag_get(TMR4, TMR_OVF_FLAG) == SET)
     {
         rt_device_hwtimer_isr(&at32_hwtimer_obj[TMR4_INDEX].tmr_device);
         tmr_flag_clear(TMR4, TMR_OVF_FLAG);
@@ -426,10 +426,26 @@ void TMR5_GLOBAL_IRQHandler(void)
     /* enter interrupt */
     rt_interrupt_enter();
 
-    if(tmr_flag_get(TMR5, TMR_OVF_FLAG) == SET)
+    if (tmr_flag_get(TMR5, TMR_OVF_FLAG) == SET)
     {
         rt_device_hwtimer_isr(&at32_hwtimer_obj[TMR5_INDEX].tmr_device);
         tmr_flag_clear(TMR5, TMR_OVF_FLAG);
+    }
+    /* leave interrupt */
+    rt_interrupt_leave();
+}
+#endif
+
+#ifdef BSP_USING_HWTMR8
+void TMR8_GLOBAL_IRQHandler(void)
+{
+    /* enter interrupt */
+    rt_interrupt_enter();
+
+    if (tmr_flag_get(TMR8, TMR_OVF_FLAG) == SET)
+    {
+        rt_device_hwtimer_isr(&at32_hwtimer_obj[TMR8_INDEX].tmr_device);
+        tmr_flag_clear(TMR8, TMR_OVF_FLAG);
     }
     /* leave interrupt */
     rt_interrupt_leave();
@@ -444,7 +460,7 @@ static int rt_hw_hwtimer_init(void)
     for (i = 0; i < sizeof(at32_hwtimer_obj) / sizeof(at32_hwtimer_obj[0]); i++)
     {
         at32_hwtimer_obj[i].tmr_device.info = &_info;
-        at32_hwtimer_obj[i].tmr_device.ops  = &_ops;
+        at32_hwtimer_obj[i].tmr_device.ops = &_ops;
         if (rt_device_hwtimer_register(&at32_hwtimer_obj[i].tmr_device, at32_hwtimer_obj[i].name, at32_hwtimer_obj[i].tmr_x) == RT_EOK)
         {
             LOG_D("%s register success", at32_hwtimer_obj[i].name);

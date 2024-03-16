@@ -145,7 +145,7 @@ void at32_msp_spi_init(void *instance)
         gpio_init_struct.gpio_pull = GPIO_PULL_NONE;
 
         gpio_init_struct.gpio_mode = GPIO_MODE_OUTPUT;
-        gpio_init_struct.gpio_pins = GPIO_PINS_4;//cs
+        gpio_init_struct.gpio_pins = GPIO_PINS_4; // cs
         gpio_init(GPIOA, &gpio_init_struct);
 
         gpio_init_struct.gpio_mode = GPIO_MODE_MUX;
@@ -189,11 +189,11 @@ void at32_msp_spi_init(void *instance)
         gpio_init_struct.gpio_pull = GPIO_PULL_NONE;
 
         gpio_init_struct.gpio_mode = GPIO_MODE_MUX;
-        gpio_init_struct.gpio_pins = GPIO_PINS_10 | GPIO_PINS_12;//scl,mosi
+        gpio_init_struct.gpio_pins = GPIO_PINS_10 | GPIO_PINS_12; // scl,mosi
         gpio_init(GPIOE, &gpio_init_struct);
 
         gpio_init_struct.gpio_mode = GPIO_MODE_INPUT;
-        gpio_init_struct.gpio_pins = GPIO_PINS_11;//miso
+        gpio_init_struct.gpio_pins = GPIO_PINS_11; // miso
         gpio_init(GPIOE, &gpio_init_struct);
     }
 #endif
@@ -515,3 +515,31 @@ void at32_msp_dac_init(void *instance)
 #endif
 }
 #endif /* BSP_USING_DAC */
+
+#ifdef BSP_USING_PULSE_ENCODER
+void at32_msp_pulse_encoder_init(void *instance)
+{
+    gpio_init_type gpio_init_struct;
+    tmr_type *tmr_x = (tmr_type *)instance;
+    gpio_default_para_init(&gpio_init_struct);
+    gpio_init_struct.gpio_drive_strength = GPIO_DRIVE_STRENGTH_STRONGER;
+
+#ifdef BSP_USING_PULSE_ENCODER4
+    if (tmr_x == TMR4)
+    {
+        /* dac & gpio clock enable */
+        crm_periph_clock_enable(CRM_IOMUX_PERIPH_CLOCK, TRUE);
+        crm_periph_clock_enable(CRM_TMR4_PERIPH_CLOCK, TRUE);
+        crm_periph_clock_enable(CRM_GPIOD_PERIPH_CLOCK, TRUE);
+
+        gpio_pin_remap_config(TMR4_GMUX_0001, TRUE);
+        gpio_init_struct.gpio_pins = GPIO_PINS_12 | GPIO_PINS_13;
+        gpio_init_struct.gpio_mode = GPIO_MODE_INPUT;
+        gpio_init_struct.gpio_out_type = GPIO_OUTPUT_PUSH_PULL;
+        gpio_init_struct.gpio_pull = GPIO_PULL_NONE;
+        gpio_init_struct.gpio_drive_strength = GPIO_DRIVE_STRENGTH_STRONGER;
+        gpio_init(GPIOD, &gpio_init_struct);
+    }
+#endif
+}
+#endif /* BSP_USING_PULSE_ENCODER */

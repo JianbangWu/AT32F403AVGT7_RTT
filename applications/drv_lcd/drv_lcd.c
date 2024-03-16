@@ -70,17 +70,6 @@ int drv_lcd_hw_init(void)
         spi_device = &lcd_device->parent;
         RT_ASSERT(spi_device != RT_NULL);
 
-        // {
-        //     lcd_device->bus_name = lcd_config[i].bus_name;
-        //     lcd_device->lcd_name = lcd_config[i].lcd_name;
-        //     lcd_device->lcd_chip = lcd_config[i].lcd_chip;
-        //     lcd_device->dc_pin = lcd_config[i].dc_pin;
-        //     lcd_device->cs_pin = lcd_config[i].cs_pin;
-        //     lcd_device->reset_pin = lcd_config[i].reset_pin;
-        //     lcd_device->bkl_pin = lcd_config[i].bkl_pin;
-        //     lcd_device->bkl_type = lcd_config[i].bkl_type;
-        // }
-
         rt_memcpy(&lcd_device->config, &lcd_config[i], sizeof(struct drv_lcd_config));
 
         rt_pin_mode(rt_pin_get(lcd_device->config.dc_pin), PIN_MODE_OUTPUT);

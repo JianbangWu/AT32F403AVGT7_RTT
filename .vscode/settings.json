@@ -10,7 +10,12 @@
         "st7796.h": "c",
         "drv_spi.h": "c",
         "rtthread.h": "c",
-        "drv_common.h": "c"
+        "drv_common.h": "c",
+        "pulse_encoder.h": "c",
+        "drv_log.h": "c",
+        "drv_pulse_enc.h": "c",
+        "drv_config.h": "c",
+        "typeinfo": "c"
     },
     "cortex-debug.variableUseNaturalFormat": false
 }

@@ -20,6 +20,7 @@
                 "board\\inc",
                 "libraries\\rt_drivers",
                 "libraries\\rt_drivers\\config",
+                "applications\\drv_pulse_enc",
                 "applications\\drv_lcd",
                 "rt-thread\\components\\dfs\\dfs_v1\\include",
                 "rt-thread\\components\\dfs\\dfs_v1\\filesystems\\devfs",
