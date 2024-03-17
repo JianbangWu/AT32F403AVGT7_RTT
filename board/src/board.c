@@ -18,7 +18,7 @@ void system_clock_config(void)
   crm_clock_source_enable(CRM_CLOCK_SOURCE_HEXT, TRUE);
 
   /* wait till hext is ready */
-  while(crm_hext_stable_wait() == ERROR)
+  while (crm_hext_stable_wait() == ERROR)
   {
   }
 
@@ -32,7 +32,7 @@ void system_clock_config(void)
   crm_clock_source_enable(CRM_CLOCK_SOURCE_PLL, TRUE);
 
   /* wait till pll is ready */
-  while(crm_flag_get(CRM_PLL_STABLE_FLAG) != SET)
+  while (crm_flag_get(CRM_PLL_STABLE_FLAG) != SET)
   {
   }
 
@@ -52,7 +52,7 @@ void system_clock_config(void)
   crm_sysclk_switch(CRM_SCLK_PLL);
 
   /* wait till pll is used as system clock source */
-  while(crm_sysclk_switch_status_get() != CRM_SCLK_PLL)
+  while (crm_sysclk_switch_status_get() != CRM_SCLK_PLL)
   {
   }
 
@@ -78,19 +78,20 @@ MSH_CMD_EXPORT(clock_information, clock info);
 
 static rt_err_t i2c_search_device()
 {
-  struct rt_i2c_bus_device *bus = rt_device_find("i2c1");
-  uint8_t reg = 0xA7;
+  struct rt_i2c_bus_device *bus = RT_NULL;
+  bus = (struct rt_i2c_bus_device *)rt_device_find("i2c2");
 
-  rt_pin_mode(rt_pin_get("PE.1"), PIN_MODE_OUTPUT);
-
-  rt_pin_write(rt_pin_get("PE.1"), PIN_LOW);
-  rt_thread_mdelay(10);
-  rt_pin_write(rt_pin_get("PE.1"), PIN_HIGH);
-  rt_thread_mdelay(30);
-
-  for (uint16_t i = 0; i < 0x7F; i++)
+  if (bus == RT_NULL)
   {
-    struct rt_i2c_msg msgs;
+    rt_kprintf("Can't find device\r\n");
+    return -RT_ERROR;
+  }
+
+  uint8_t reg = 0xFA;
+  struct rt_i2c_msg msgs;
+
+  for (uint16_t i = 0; i < 0x7F; i++) // 7bit ADDR Total
+  {
 
     msgs.addr = i;
     msgs.flags = RT_I2C_WR;
@@ -99,7 +100,7 @@ static rt_err_t i2c_search_device()
 
     if (rt_i2c_transfer(bus, &msgs, 1) == 1)
     {
-      rt_kprintf("Found I2C Device Addr = %X\r\n", i);
+      rt_kprintf("Found I2C Device At = 0x%X\r\n", i);
     }
   }
 }

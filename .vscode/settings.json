@@ -15,7 +15,8 @@
         "drv_log.h": "c",
         "drv_pulse_enc.h": "c",
         "drv_config.h": "c",
-        "typeinfo": "c"
+        "typeinfo": "c",
+        "bq25798.h": "c"
     },
     "cortex-debug.variableUseNaturalFormat": false
 }

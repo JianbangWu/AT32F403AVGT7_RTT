@@ -10,7 +10,7 @@ static struct rt_i2c_client *cst816s_client;
 
 static rt_err_t cst816s_write_reg(struct rt_i2c_client *dev, rt_uint8_t *write_data, rt_uint8_t write_len)
 {
-    struct rt_i2c_msg msgs;
+    struct rt_i2c_msg msgs; 
 
     msgs.addr = dev->client_addr;
     msgs.flags = RT_I2C_WR;
@@ -197,4 +197,4 @@ int rt_hw_cst816s_port(void)
 
     return 0;
 }
-INIT_PREV_EXPORT(rt_hw_cst816s_port);
+// INIT_PREV_EXPORT(rt_hw_cst816s_port);

@@ -29,14 +29,14 @@ static void cst816s_entry(void *parameter)
             rt_kprintf("%d %3d %3d %d \r\n", read_data.track_id, read_data.x_coordinate, read_data.y_coordinate, read_data.timestamp);
             tick_old = read_data.timestamp;
         }
-        rt_device_control(touch_device, RT_TOUCH_CTRL_ENABLE_INT, RT_NULL);
+        // rt_device_control(touch_device, RT_TOUCH_CTRL_ENABLE_INT, RT_NULL);
     }
 }
 
 static rt_err_t rx_callback(rt_device_t dev, rt_size_t size)
 {
     rt_sem_release(cst816s_sem);
-    rt_device_control(dev, RT_TOUCH_CTRL_DISABLE_INT, RT_NULL);
+    // rt_device_control(dev, RT_TOUCH_CTRL_DISABLE_INT, RT_NULL);
     return 0;
 }
 
@@ -84,4 +84,4 @@ void cst816s_sample(void)
 
     return 0;
 }
-INIT_DEVICE_EXPORT(cst816s_sample);
+// INIT_DEVICE_EXPORT(cst816s_sample);

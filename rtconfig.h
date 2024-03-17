@@ -305,7 +305,10 @@
 #define BSP_USING_SPI4
 #define BSP_USING_I2C
 #define BSP_USING_I2C1
-#define BSP_I2C1_SCL_PIN 22
-#define BSP_I2C1_SDA_PIN 23
+#define BSP_I2C1_SCL_PIN 24
+#define BSP_I2C1_SDA_PIN 25
+#define BSP_USING_I2C2
+#define BSP_I2C2_SCL_PIN 22
+#define BSP_I2C2_SDA_PIN 23
 
 #endif
