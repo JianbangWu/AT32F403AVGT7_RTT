@@ -176,9 +176,9 @@ static rt_err_t at32_i2c_bus_unlock(const struct at32_soft_i2c_config *cfg)
         while (i++ < 9)
         {
             rt_pin_write(cfg->scl, PIN_HIGH);
-            at32_udelay(150);
+            at32_udelay(100);
             rt_pin_write(cfg->scl, PIN_LOW);
-            at32_udelay(150);
+            at32_udelay(100);
         }
     }
     if (PIN_LOW == rt_pin_read(cfg->sda))
