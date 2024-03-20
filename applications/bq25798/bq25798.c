@@ -68,13 +68,18 @@ static rt_err_t bq25798_read_adc(struct bq25798_device *dev, void *buf)
 static rt_err_t bq25798_disable_watchdog(struct bq25798_device *dev)
 {
     rt_uint8_t reg[2];
-    reg[0] = Charger_Control_2;
-    reg[1] = 0x40 | 0x03;
+    reg[0] = Termination_Control;
+    reg[1] = 0x45;
     bq25798_write_reg(bq25798_client, reg, 2);
-
+    rt_thread_mdelay(10);
     reg[0] = Charger_Control_1;
     bq25798_read_regs(bq25798_client, &reg[0], 1, &reg[1], 1);
     reg[1] = reg[1] & 0xF8;
+    bq25798_write_reg(bq25798_client, reg, 2);
+
+    reg[0] = Charger_Control_0;
+    bq25798_read_regs(bq25798_client, &reg[0], 1, &reg[1], 1);
+    reg[1] = reg[1] | 0x01;
     bq25798_write_reg(bq25798_client, reg, 2);
 }
 
