@@ -26,6 +26,7 @@
         .bkl_pin = "PC.7",               \
     }
 
+/* pmod spi4 */
 // #define LCD2_CONFIG                      \
 //     {                                    \
 //         .bus_name = "spi4",              \
@@ -37,16 +38,29 @@
 //         .bkl_pin = "PB.8",               \
 //     }
 
-#define LCD2_CONFIG                      \
-    {                                    \
-        .bus_name = "spi4",              \
-        .lcd_name = "lcd2",              \
-        .lcd_chip = "gc9a01",            \
-        .dc_pin = "PE.5",                \
-        .cs_pin = "PE.4",                \
-        .reset_pin = "PE.1",             \
-        .bkl_pin = "PB.9",               \
+#define LCD2_CONFIG           \
+    {                         \
+        .bus_name = "spi4",   \
+        .lcd_name = "lcd2",   \
+        .lcd_chip = "st7789", \
+        .dc_pin = "PB.9",     \
+        .cs_pin = "PE.4",     \
+        .reset_pin = "PE.0",  \
+        .bkl_pin = "PB.8",    \
     }
+
+// /* board on spi4 */
+// #define LCD2_CONFIG                      \
+//     {                                    \
+//         .bus_name = "spi4",              \
+//         .lcd_name = "lcd2",              \
+//         .lcd_chip = "gc9a01",            \
+//         .dc_pin = "PE.5",                \
+//         .cs_pin = "PE.4",                \
+//         .reset_pin = "PE.1",             \
+//         .bkl_pin = "PB.9",               \
+//     }
+
 
 
 #endif

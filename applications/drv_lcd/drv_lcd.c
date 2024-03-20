@@ -34,6 +34,7 @@ static struct drv_lcd_config lcd_config[] = {
 
 #include "st7796.h"
 #include "gc9a01.h"
+#include "st7789.h"
 
 static rt_err_t drv_lcd_init(struct drv_lcd_device *dev)
 {
@@ -43,12 +44,23 @@ static rt_err_t drv_lcd_init(struct drv_lcd_device *dev)
         rt_pin_write(&dev->config.bkl_pin, PIN_HIGH);
         st7796_init(dev);
     }
-    if (dev->config.lcd_chip == "gc9a01")
+  else if (dev->config.lcd_chip == "gc9a01")
     {
         LOG_D("now initing %s on %s ", dev->config.lcd_chip, dev->config.bus_name);
         rt_pin_write(&dev->config.bkl_pin, PIN_HIGH);
         gc9a01_init(dev);
     }
+    else if (dev->config.lcd_chip == "st7789")
+    {
+        LOG_D("now initing %s on %s ", dev->config.lcd_chip, dev->config.bus_name);
+        rt_pin_write(&dev->config.bkl_pin, PIN_HIGH);
+        st7789_init(dev);
+    }
+    else
+    {
+        LOG_E("unrecongized chip name %s", dev->config.lcd_chip);
+    }
+    
 }
 
 int drv_lcd_hw_init(void)

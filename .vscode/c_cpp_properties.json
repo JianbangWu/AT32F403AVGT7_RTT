@@ -8,6 +8,7 @@
             "compilerPath": "D:/DevelopTools/env-windows/tools/gnu_gcc/arm_gcc/mingw/bin/arm-none-eabi-gcc",
             "includePath": [
                 "applications",
+                "applications\\bq25798",
                 "rt-thread\\components\\libc\\compilers\\common\\include",
                 "rt-thread\\components\\libc\\compilers\\newlib",
                 "rt-thread\\libcpu\\arm\\common",
@@ -97,6 +98,7 @@
                 "rt-thread\\components\\libc\\posix\\io\\eventfd",
                 "rt-thread\\components\\libc\\posix\\io\\poll",
                 "rt-thread\\components\\libc\\posix\\ipc",
+                "applications\\st7789",
                 "applications\\st7796",
                 "libraries\\usbd_library\\inc"
             ],
