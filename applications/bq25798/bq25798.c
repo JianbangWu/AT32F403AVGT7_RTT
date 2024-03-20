@@ -1,6 +1,10 @@
 
 #include "bq25798.h"
 
+#define LOG_TAG "bq25798.c"
+#define DBG_LVL DBG_LOG
+#include <drv_log.h>
+
 static struct rt_i2c_client *bq25798_client;
 
 static rt_err_t bq25798_write_reg(struct rt_i2c_client *dev, rt_uint8_t *write_data, rt_uint8_t write_len)
@@ -42,32 +46,57 @@ static rt_err_t bq25798_read_regs(struct rt_i2c_client *dev, rt_uint8_t *cmd_buf
     return RT_ERROR;
 }
 
-static rt_err_t bq25798_init_regs(struct bq25798_device *dev)
-{
-    rt_uint8_t reg[2];
-    reg[0] = IBUS_ADC;
-    reg[1] = 1;
-    bq25798_write_reg(bq25798_client, reg, 2);
-    
-}
-
 static rt_err_t bq25798_read_adc(struct bq25798_device *dev, void *buf)
 {
     struct bq25798_adc *pdata = buf;
-    rt_uint8_t reg_val[12];
     rt_uint8_t reg[2];
+    rt_uint8_t reg_val[12];
 
     reg[0] = IBUS_ADC;
-    bq25798_read_regs(bq25798_client, reg, 1, reg_val, 4);
+    bq25798_read_regs(bq25798_client, reg, 1, reg_val, 12);
 
-    pdata->ibus = (reg_val[0] << 8 + reg_val[1]);
-    pdata->ibat = (reg_val[2] << 8 + reg_val[3]);
-    pdata->vbus = (reg_val[4] << 8 + reg_val[5]);
-    pdata->vac1 = (reg_val[6] << 8 + reg_val[7]);
-    pdata->vac2 = (reg_val[8] << 8 + reg_val[9]);
-    pdata->vbat = (reg_val[10] << 8 + reg_val[11]);
+    pdata->ibus = (reg_val[0] << 8) + reg_val[1];
+    pdata->ibat = (reg_val[2] << 8) + reg_val[3];
+    pdata->vbus = (reg_val[4] << 8) + reg_val[5];
+    pdata->vac1 = (reg_val[6] << 8) + reg_val[7];
+    pdata->vac2 = (reg_val[8] << 8) + reg_val[9];
+    pdata->vbat = (reg_val[10] << 8) + reg_val[11];
 
     pdata->timestamp = rt_tick_get();
+}
+
+static rt_err_t bq25798_disable_watchdog(struct bq25798_device *dev)
+{
+    rt_uint8_t reg[2];
+    reg[0] = Charger_Control_2;
+    reg[1] = 0x40 | 0x03;
+    bq25798_write_reg(bq25798_client, reg, 2);
+
+    reg[0] = Charger_Control_1;
+    bq25798_read_regs(bq25798_client, &reg[0], 1, &reg[1], 1);
+    reg[1] = reg[1] & 0xF8;
+    bq25798_write_reg(bq25798_client, reg, 2);
+}
+
+static rt_err_t bq25798_enable_adc(struct bq25798_device *dev)
+{
+    rt_uint8_t reg[2];
+    reg[0] = ADC_Control;
+    reg[1] = 0x80;
+    bq25798_write_reg(bq25798_client, reg, 2);
+}
+
+static rt_err_t bq25798_read_chip_info(struct bq25798_device *dev)
+{
+    rt_uint8_t reg[2];
+    reg[0] = Part_Information;
+    bq25798_read_regs(bq25798_client, &reg[0], 1, &reg[1], 1);
+    if (reg[1] == 0x19)
+    {
+        /* code */
+        rt_kprintf("bq25798 work well \r\n");
+    }
+    return RT_ERROR;
 }
 
 int rt_hw_bq25798_register(bq25798_device_t dev, const char *name, rt_uint32_t flag, void *data)
@@ -135,7 +164,7 @@ int rt_hw_bq25798_init(const char *name, struct bq25798_gpio_config *cfg)
 
     /* hardware init */
     rt_pin_mode(cfg->irq_pin.pin, cfg->irq_pin.mode);
-    rt_pin_mode(cfg->charge_en_pin.pin, cfg->charge_en_pin.mode);
+    // rt_pin_mode(cfg->charge_en_pin.pin, cfg->charge_en_pin.mode);
     rt_pin_mode(cfg->ship_fet_en_pin.pin, cfg->ship_fet_en_pin.mode);
 
     bq25798_client->client_addr = BQ25798_DEV_ADDR;
@@ -143,7 +172,16 @@ int rt_hw_bq25798_init(const char *name, struct bq25798_gpio_config *cfg)
     bq25798_dev->ops = &device_ops;
 
     /* register bq25798 device */
-    rt_hw_bq25798_register(bq25798_dev, "bq25798", RT_DEVICE_FLAG_INT_RX, RT_NULL);
+    rt_hw_bq25798_register(bq25798_dev, name, RT_DEVICE_FLAG_INT_RX, RT_NULL);
+
+    bq25798_disable_watchdog(bq25798_dev);
+    bq25798_enable_adc(bq25798_dev);
+
+    if (bq25798_read_chip_info(bq25798_dev) == RT_ERROR)
+    {
+
+        return RT_ERROR;
+    }
 
     LOG_I("touch device bq25798 init success\n");
 
@@ -154,18 +192,19 @@ int rt_hw_bq25798_port(void)
 {
     struct bq25798_gpio_config config;
 
-    config.dev_name = "i2c1";
-    config.irq_pin.pin = rt_pin_get("PE.1");
-    config.irq_pin.mode = PIN_MODE_INPUT;
+    config.dev_name = "i2c2";
 
-    config.charge_en_pin.pin = rt_pin_get("PE.1");
-    config.charge_en_pin.mode = PIN_MODE_OUTPUT;
+    config.irq_pin.pin = rt_pin_get("PB.5");
+    config.irq_pin.mode = PIN_MODE_INPUT_PULLUP;
 
-    config.ship_fet_en_pin.pin = rt_pin_get("PE.1");
+    // config.charge_en_pin.pin = rt_pin_get("PB.5");
+    // config.charge_en_pin.mode = PIN_MODE_OUTPUT;
+
+    config.ship_fet_en_pin.pin = rt_pin_get("PE.3");
     config.ship_fet_en_pin.mode = PIN_MODE_OUTPUT;
 
     rt_hw_bq25798_init("bq25798", &config);
 
     return 0;
 }
-// INIT_PREV_EXPORT(rt_hw_bq25798_port);
+INIT_PREV_EXPORT(rt_hw_bq25798_port);

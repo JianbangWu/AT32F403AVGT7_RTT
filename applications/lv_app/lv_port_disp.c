@@ -177,7 +177,7 @@ static void disp_flush(lv_disp_drv_t *disp_drv, const lv_area_t *area, lv_color_
     {
         /*The most simple case (but also the slowest) to put all pixels to the screen one-by-one*/
         // bsp_lcd_address_set(area->x1, area->y1, area->x2, area->y2);
-        struct drv_lcd_config lcd_config = LCD2_CONFIG;
+        struct drv_lcd_config lcd_config = LCD1_CONFIG;
         struct rt_spi_device *lcd_handle = rt_device_find(lcd_config.lcd_name);
         struct drv_lcd_device *lcd_device = lcd_handle;
         rt_size_t len, pixel_num;

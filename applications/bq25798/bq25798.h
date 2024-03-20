@@ -15,17 +15,17 @@ struct bq25798_gpio_config
 struct bq25798_adc
 {
 
-    rt_base_t ibus;
-    rt_base_t ibat;
-    rt_base_t vbus;
-    rt_base_t vac1;
-    rt_base_t vac2;
-    rt_base_t vbat;
-    rt_base_t vsys;
-    rt_base_t ts;
-    rt_base_t tdie;
-    rt_base_t vdp;
-    rt_base_t vdm;
+    rt_int16_t ibus;
+    rt_int16_t ibat;
+    rt_int16_t vbus;
+    rt_int16_t vac1;
+    rt_int16_t vac2;
+    rt_int16_t vbat;
+    rt_int16_t vsys;
+    rt_int16_t ts;
+    rt_int16_t tdie;
+    rt_int16_t vdp;
+    rt_int16_t vdm;
     rt_tick_t timestamp; /* The timestamp when the data was received */
 };
 

@@ -16,25 +16,21 @@ static void bq25798_entry(void *parameter)
 {
     while (1)
     {
-        rt_sem_take(bq25798_sem, RT_WAITING_FOREVER);
-        rt_uint32_t tick_old;
-        if (read_data.timestamp != tick_old)
-        {
-            dev->ops->bq25798_read_adc(dev, &read_data);
-            rt_kprintf("%d vbus:%3d vac1:%3d vac2:%3d  \r\n", read_data.timestamp, read_data.vbus, read_data.vac1, read_data.vac2);
-            tick_old = read_data.timestamp;
-        }
+        dev->ops->bq25798_read_adc(dev, &read_data);
+        rt_kprintf("vbus:%d vac1:%d vac2:%d vbat:%d        \r", read_data.vbus, read_data.vac1, read_data.vac2, read_data.vbat);
+        rt_thread_mdelay(1000);
     }
 }
 
 static rt_err_t rx_callback(void *param)
 {
-    rt_sem_release(bq25798_sem);
+    // rt_sem_release(bq25798_sem);
+    rt_kprintf("bq25798 irq \r\n");
     return 0;
 }
 
 /* bq25798 interrupt initialization function */
-static rt_err_t rt_bq25798_irq_init(bq25798_device_t dev)
+static rt_err_t rt_bq25798_irq_init(struct bq25798_device *dev)
 {
 
     if (dev->ioconfig.irq_pin.pin == PIN_IRQ_PIN_NONE)
@@ -79,7 +75,7 @@ void bq25798_sample(void)
         return -1;
     }
 
-    bq25798_sem = rt_sem_create("dsem", 0, RT_IPC_FLAG_FIFO);
+    bq25798_sem = rt_sem_create("dsem2", 0, RT_IPC_FLAG_FIFO);
     if (bq25798_sem == RT_NULL)
     {
         rt_kprintf("create dynamic semaphore failed.\r\n");
@@ -102,4 +98,4 @@ void bq25798_sample(void)
 
     return 0;
 }
-// INIT_DEVICE_EXPORT(bq25798_sample);
+INIT_DEVICE_EXPORT(bq25798_sample);
