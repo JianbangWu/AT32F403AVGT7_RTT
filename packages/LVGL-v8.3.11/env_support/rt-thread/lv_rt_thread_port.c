@@ -76,7 +76,7 @@ static void lvgl_thread_entry(void *parameter)
     /*Create an object with the new style*/
     lv_obj_t *obj = lv_obj_create(lv_scr_act());
     lv_obj_add_style(obj, &style, 0); // 为对象增加 样式
-    lv_obj_set_size(obj, 240, 240);   // 设置对象 宽高
+    lv_obj_set_size(obj, 240, 300);   // 设置对象 宽高
     lv_obj_center(obj);
 
     /*Create a white label, set its text and align it to the center*/
