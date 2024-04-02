@@ -75,33 +75,3 @@ void clock_information(void)
   rt_kprintf("PCLK2_Frequency  = %d\r\n", (int)crm_clocks.apb2_freq);
 }
 MSH_CMD_EXPORT(clock_information, clock info);
-
-static rt_err_t i2c_search_device()
-{
-  struct rt_i2c_bus_device *bus = RT_NULL;
-  bus = (struct rt_i2c_bus_device *)rt_device_find("i2c2");
-
-  if (bus == RT_NULL)
-  {
-    rt_kprintf("Can't find device\r\n");
-    return -RT_ERROR;
-  }
-
-  uint8_t reg = 0xFA;
-  struct rt_i2c_msg msgs;
-
-  for (uint16_t i = 0; i < 0x7F; i++) // 7bit ADDR Total
-  {
-
-    msgs.addr = i;
-    msgs.flags = RT_I2C_WR;
-    msgs.buf = &reg;
-    msgs.len = 1;
-
-    if (rt_i2c_transfer(bus, &msgs, 1) == 1)
-    {
-      rt_kprintf("Found I2C Device At = 0x%X\r\n", i);
-    }
-  }
-}
-MSH_CMD_EXPORT(i2c_search_device, search device);
