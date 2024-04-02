@@ -108,6 +108,7 @@ void rt_hw_us_delay(rt_uint32_t us)
 /**
  * this function will initial at32 board.
  */
+extern int rt_hw_jlink_rtt_init(void);
 rt_weak void rt_hw_board_init()
 {
     /* system clock initialization */
@@ -133,7 +134,7 @@ rt_weak void rt_hw_board_init()
 #ifdef RT_USING_SERIAL
     rt_hw_usart_init();
 #endif
-
+    rt_hw_jlink_rtt_init();
     /* set the shell console output device */
 #if defined(RT_USING_CONSOLE) && defined(RT_USING_DEVICE)
     rt_console_set_device(RT_CONSOLE_DEVICE_NAME);
