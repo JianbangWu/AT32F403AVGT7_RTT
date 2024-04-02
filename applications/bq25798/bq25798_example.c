@@ -98,4 +98,4 @@ void bq25798_sample(void)
 
     return 0;
 }
-INIT_DEVICE_EXPORT(bq25798_sample);
+// INIT_DEVICE_EXPORT(bq25798_sample);

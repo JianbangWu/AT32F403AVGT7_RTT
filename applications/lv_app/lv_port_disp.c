@@ -170,6 +170,7 @@ void disp_disable_update(void)
 #include <drv_log.h>
 
 #include "st7796.h"
+#include "st7789.h"
 #include "gc9a01.h"
 static void disp_flush(lv_disp_drv_t *disp_drv, const lv_area_t *area, lv_color_t *color_p)
 {
@@ -182,7 +183,7 @@ static void disp_flush(lv_disp_drv_t *disp_drv, const lv_area_t *area, lv_color_
         struct drv_lcd_device *lcd_device = lcd_handle;
         rt_size_t len, pixel_num;
         pixel_num = (area->y2 - area->y1 + 1) * (area->x2 - area->x1 + 1) * 2;
-        gc9a01_address_set(lcd_device, area->x1, area->y1, area->x2, area->y2);
+        st7789_address_set(lcd_device, area->x1, area->y1, area->x2, area->y2);
         rt_spi_send(lcd_device, (const void *)color_p, pixel_num);
     }
 

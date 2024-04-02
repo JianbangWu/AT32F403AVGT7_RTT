@@ -149,7 +149,7 @@ int rt_hw_bq25798_init(const char *name, struct bq25798_gpio_config *cfg)
 
     bq25798_device_t bq25798_dev = RT_NULL;
 
-    bq25798_dev = (rt_touch_t)rt_calloc(1, sizeof(struct bq25798_device));
+    bq25798_dev = (bq25798_device_t)rt_calloc(1, sizeof(struct bq25798_device));
 
     if (bq25798_dev == RT_NULL)
         return -RT_ERROR;
@@ -188,7 +188,7 @@ int rt_hw_bq25798_init(const char *name, struct bq25798_gpio_config *cfg)
         return RT_ERROR;
     }
 
-    LOG_I("touch device bq25798 init success\n");
+    LOG_I("bq25798 init success\n");
 
     return RT_EOK;
 }
@@ -212,4 +212,4 @@ int rt_hw_bq25798_port(void)
 
     return 0;
 }
-INIT_PREV_EXPORT(rt_hw_bq25798_port);
+// INIT_PREV_EXPORT(rt_hw_bq25798_port);
