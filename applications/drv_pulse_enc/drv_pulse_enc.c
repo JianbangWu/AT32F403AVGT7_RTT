@@ -211,7 +211,7 @@ int hw_pulse_encoder_init(void)
 
     return result;
 }
-INIT_BOARD_EXPORT(hw_pulse_encoder_init);
+// INIT_BOARD_EXPORT(hw_pulse_encoder_init);
 
 #define THREAD_PRIORITY 20
 #define THREAD_STACK_SIZE 1024
@@ -260,4 +260,4 @@ void pluse_encoder_test()
     }
     rt_thread_startup(enc_thread);
 }
-MSH_CMD_EXPORT(pluse_encoder_test, enc test);
+// MSH_CMD_EXPORT(pluse_encoder_test, enc test);

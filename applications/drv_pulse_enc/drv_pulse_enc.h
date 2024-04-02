@@ -3,5 +3,7 @@
 
 #include "rtthread.h"
 
+#define BSP_USING_PULSE_ENCODER
+#define BSP_USING_PULSE_ENCODER4
 
 #endif
