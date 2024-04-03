@@ -54,7 +54,7 @@ def GenerateCFiles(env):
         config_obj = {}
         config_obj['name'] = 'Win32'
         config_obj['defines'] = info['CPPDEFINES']
-        config_obj['intelliSenseMode'] = 'clang-x64'
+        config_obj['intelliSenseMode'] = 'windows-gcc-arm'
         config_obj['compilerPath'] = cc
         config_obj['cStandard'] = "c99"
         config_obj['cppStandard'] = "c++11"
