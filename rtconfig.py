@@ -45,7 +45,7 @@ if PLATFORM == 'gcc':
     OBJDUMP = PREFIX + 'objdump'
     OBJCPY = PREFIX + 'objcopy'
 
-    DEVICE = ' -mcpu=cortex-m4 -mthumb -mfpu=fpv4-sp-d16 -mfloat-abi=hard -ffunction-sections -fdata-sections'
+    DEVICE = ' -mcpu=cortex-m4 -mthumb -mfpu=fpv4-sp-d16 -mfloat-abi=hard -ffunction-sections -fdata-sections -w'
     CFLAGS = DEVICE + ' -Dgcc'
     AFLAGS = ' -c' + DEVICE + ' -x assembler-with-cpp -Wa,-mimplicit-it=thumb '
     LFLAGS = DEVICE + ' -Wl,--gc-sections,--print-memory-usage,-Map=' + curfoldername +'.map,-cref,-u,Reset_Handler -T board/linker_scripts/link.lds'
@@ -61,7 +61,7 @@ if PLATFORM == 'gcc':
 
     CXXFLAGS = CFLAGS
 
-    POST_ACTION = OBJCPY + ' -O binary $TARGET '+ curfoldername+'.bin\n' + OBJCPY + ' -O ihex $TARGET '+ curfoldername+'.hex\n' + SIZE + ' $TARGET \n'
+    POST_ACTION = OBJCPY + ' -O binary $TARGET '+ curfoldername+'.bin\n' + OBJCPY + ' -O ihex $TARGET '+ curfoldername+'.hex\n' 
 
 elif PLATFORM == 'armcc':
     # toolchains
