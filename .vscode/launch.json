@@ -1,6 +1,18 @@
 {
     "configurations": [
         {
+            "cwd": "${workspaceFolder}",
+            "executable": "${workspaceFolderBasename}.elf",
+            "name": "Debug with JLink",
+            "request": "launch",
+            "type": "cortex-debug",
+            "runToEntryPoint": "main",
+            "showDevDebugOutput": "none",
+            "servertype": "jlink",
+            "svdFile": "AT32F403Axx_v2.svd",
+            "device": "AT32F403AVGT7",
+        },
+        {
             "name": "OpenOCD",
             "cwd": "${workspaceRoot}",
             "type": "cortex-debug",
@@ -17,6 +29,6 @@
             "runToEntryPoint": "main",
             "device": "AT32F403AVGT7",
             "showDevDebugOutput": "vscode"
-        },
+        }
     ]
 }
